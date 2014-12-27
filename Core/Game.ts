@@ -1,4 +1,5 @@
 /// <reference path="../Graphics/View.ts" />
+/// <reference path="../Utils/GameLoopHelper.ts" />
 
 interface GameOptions{
     showMouse?: boolean;
@@ -7,12 +8,14 @@ interface GameOptions{
 
 class Game extends View{
 
-
+    //General
     private Canvas: HTMLCanvasElement;
     private Context: CanvasRenderingContext2D;
-    private any: requestAnimationFrame;
-
     public Options: GameOptions;
+
+    //Gameloop
+    private requestAnimationFrame: any;
+
 
     constructor(Canvas: HTMLCanvasElement, Options: GameOptions) {
 
@@ -26,34 +29,23 @@ class Game extends View{
         this.Context = Canvas.getContext("2d");
         this.Options = Options;
 
-        this.Tick(0);
-        this.Draw(this.Context);
-
-        //Get RequestAnimationFrame;
-        this.requestAnimationFrame =    window.requestAnimationFrame ||
-                                        window.webkitRequestAnimationFrame ||
-                                        window.mozRequestAnimationFrame    ||
-                                        window.oRequestAnimationFrame      ||
-                                        window.msRequestAnimationFrame     ||
-                                        null ;
-
-        
+        //Start Gameloop
+        GameLoopHelper.Start(this.Tick.bind(this));
 
     }
 
-    Tick(elapsed: number) {
+    public Tick(elapsed) {
         super.Tick(elapsed);
 
-        console.log("Tick")
 
+        //Call Draw-Methods
+        this.Draw(this.Context);
     }
 
-    Draw(e: CanvasRenderingContext2D) {
+    public Draw(e: CanvasRenderingContext2D) {
         super.Draw(e);
 
         //Clear canvas
         e.clearRect(0, 0, this.Width, this.Height);
-
-
     }
 }

@@ -6,11 +6,11 @@ class Control{
 
     }
 
-    Tick(elapsed) {
+    public Tick(elapsed) {
 
     }
 
-    Draw(e) {
+    public Draw(e) {
 
     }
 
