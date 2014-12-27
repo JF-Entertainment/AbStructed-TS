@@ -1,7 +1,10 @@
 /// <reference path="../Graphics/View.ts" />
 /// <reference path="../Utils/GameLoopHelper.ts" />
 
-interface GameOptions{
+/// <reference path="../Graphics/Controls/Button.ts" />
+
+//Options to give when intializing
+interface IGameOptions{
     showMouse?: boolean;
 }
 
@@ -11,13 +14,11 @@ class Game extends View{
     //General
     private Canvas: HTMLCanvasElement;
     private Context: CanvasRenderingContext2D;
-    public Options: GameOptions;
-
-    //Gameloop
-    private requestAnimationFrame: any;
+    public Options: IGameOptions;
 
 
-    constructor(Canvas: HTMLCanvasElement, Options: GameOptions) {
+
+    constructor(Canvas: HTMLCanvasElement, Options: IGameOptions) {
 
         //Initialize parent
         super(0, 0, Canvas.width, Canvas.height);
@@ -43,9 +44,12 @@ class Game extends View{
     }
 
     public Draw(e: CanvasRenderingContext2D) {
-        super.Draw(e);
 
         //Clear canvas
         e.clearRect(0, 0, this.Width, this.Height);
+
+        //Draw children
+        super.Draw(e);
+
     }
 }

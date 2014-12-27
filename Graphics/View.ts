@@ -1,5 +1,12 @@
 
 
+enum State{
+    Active,
+    Paused,
+    Deleted
+}
+
+
 class View{
 
     public X: number;
@@ -8,6 +15,7 @@ class View{
     public Height: number;
     public Children: View[];
     public Parent: View;
+    public State: State;
 
     constructor(X:number = 0, Y:number = 0, Width:number = 0, Height:number = 0) {
         //Initialize attributes
@@ -16,22 +24,36 @@ class View{
         this.Width = Width;
         this.Height = Height;
 
+        this.State = State.Active;
         this.Children = [];
 
     }
 
     public Tick(elapsed: number) {
 
-        for (var i=1; i < this.Children.length; i++) {
-            this.Children[i].Tick(elapsed);
-        }
 
+
+        for (var i=0; i < this.Children.length; i++) {
+
+            //Remove children, who have been flagged "Deleted"
+            if (this.Children[i].State == State.Deleted) {
+                //Delete Child and skip step
+                this.Children.splice(i, 1);
+                i++;
+                //TODO: check if necessary
+                if (i >= this.Children.length) break;
+            }
+
+            //Call children if not paused
+            if (this.Children[i].State != State.Paused) this.Children[i].Tick(elapsed);
+
+        }
 
     }
 
     public Draw(e: CanvasRenderingContext2D) {
 
-        for (var i=1; i < this.Children.length; i++) {
+        for (var i=0; i < this.Children.length; i++) {
             var Child: View = this.Children[i];
 
             //Translate canvas and call children
@@ -52,4 +74,15 @@ class View{
 
     }
 
+    public Delete() {
+        this.State = State.Deleted;
+    }
+
+    public Pause() {
+        this.State = State.Paused;
+    }
+
+    public Unpause() {
+        this.State = State.Active;
+    }
 }

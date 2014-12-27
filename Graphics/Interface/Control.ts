@@ -1,17 +1,6 @@
 /// <reference path="../View.ts" />
 
-class Control{
+class Control extends View{
 
-    constructor() {
-
-    }
-
-    public Tick(elapsed) {
-
-    }
-
-    public Draw(e) {
-
-    }
 
 }
