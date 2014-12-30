@@ -9,6 +9,9 @@ interface IGameOptions{
 }
 
 
+/*
+* General Game
+*/
 class Game extends View{
 
     //General
